@@ -1,0 +1,12 @@
+fastapi
+uvicorn
+langchain
+openai
+gradio
+weaviate
+pydub
+simpleaudio
+base64
+huggingface-hub
+transformers
+python-dotenv
