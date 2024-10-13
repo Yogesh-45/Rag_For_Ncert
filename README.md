@@ -25,28 +25,27 @@ pip install -r requirements.txt
 
 
 # Configuration
-Create a .env File &  add API Keys to .env  
-The application requires API keys for OpenAI, Sarvam, and Weaviate. Create a .env file in the root directory of the project and add your API credentials.  
+Create a .env File &  add API Keys to .env. The application requires API keys for OpenAI, Sarvam, and Weaviate.
 Replace the placeholder text with your actual API keys:
 
-OPENAI_API_KEY=your_openai_api_key  
-SARVAM_API_KEY=your_sarvam_api_key  
-WEAVIATE_API_KEY=your_weaviate_api_key
+**OPENAI_API_KEY=**   your_openai_api_key  
+**SARVAM_API_KEY=**   your_sarvam_api_key  
+**WEAVIATE_API_KEY=** your_weaviate_api_key
 
 
 # Running the Application
 Once the setup is complete, you can run the application using the following command:  
-python main.py  
+**python main.py**  
 This command will start the FastAPI server and the Gradio interface. By default, the application will be accessible at http://127.0.0.1:7860/.
 
 
 # Integration Details
 The Rag_For_Ncert application integrates several powerful libraries and frameworks to deliver its functionality:
 
-LangChain: Manages the retrieval and language models, facilitating the RAG process.  
-FastAPI: Serves as the web framework to handle API requests and responses efficiently.  
-Gradio: Provides an interactive user interface for testing and demonstrating the application's capabilities.  
+**LangChain:** Manages the retrieval and language models, facilitating the RAG process.  
+**FastAPI:** Serves as the web framework to handle API requests and responses efficiently.  
+**Gradio:** Provides an interactive user interface for testing and demonstrating the application's capabilities.  
 Additional Libraries:  
-OpenAI: Interfaces with OpenAI's GPT models for generating responses.  
-Weaviate: Serves as the vector database for document retrieval.  
-Sarvam: Provides Text-To-Speech (TTS) models
+**OpenAI:** Interfaces with OpenAI's GPT models for generating responses.  
+**Weaviate:** Serves as the vector database for document retrieval.  
+**Sarvam:** Provides Text-To-Speech (TTS) models
