@@ -1,7 +1,7 @@
 # Rag_For_Ncert
 Rag_For_Ncert is a Retrieval-Augmented Generation (RAG) application designed to assist users with queries related to the NCERT Sound topic. The application offers two primary endpoints:
 
-**/rag:** Provides RAG-based textual answers to user queries about sound.
+**/rag:** Provides RAG-based textual answers to user queries about sound.  
 **/rag_agent:** Delivers both text and voice responses to user queries using Large Language Model (LLM) agents.
 
 
@@ -15,13 +15,13 @@ Integration Details
 # Installation
 Follow these steps to clone the repository and set up the development environment.
 
-1. Clone the Repository
-git clone https://github.com/Yogesh-45/Rag_For_Ncert.git
-cd Rag_For_Ncert
-2. Create a Virtual Environment
-It's recommended to use a virtual environment to manage project dependencies.
-3. Install Dependencies
-Install the required Python packages using pip:
+1. Clone the Repository  
+git clone https://github.com/Yogesh-45/Rag_For_Ncert.git  
+cd Rag_For_Ncert  
+2. Create a Virtual Environment  
+It's recommended to use a virtual environment to manage project dependencies.  
+3. Install Dependencies  
+Install the required Python packages using pip:  
 pip install -r requirements.txt
 
 
