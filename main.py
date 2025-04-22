@@ -1,37 +1,29 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import Optional
-import json
 import gradio as gr
 import uvicorn
-
-
-import sys
-from generate_llm_response import generate_llm_response
-from rag import RAG
-
 import os
 from dotenv import load_dotenv
 
+from generate_llm_response import generate_llm_response
+from voice_agent import VoiceAgent
 
-load_dotenv(dotenv_path='D:/yogi/LLM/sarvam/llm_app/backend/.env')
-OPENAI_API_KEY= os.getenv("OPENAI_API_KEY")
-SARVAM_API_KEY= os.getenv("SARVAM_API_KEY")
+load_dotenv(dotenv_path='D:/yogi/LLM/sarvam/llm_app/rag_for_ncert/.env')
 
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+SARVAM_API_KEY = os.getenv("SARVAM_API_KEY")
 
 app = FastAPI()
 
-# Configure CORS to allow frontend to communicate with backend
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Update with your frontend URL in production
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-# Define Pydantic models for request and response
 
 class QueryRequest(BaseModel):
     query: str
@@ -39,52 +31,37 @@ class QueryRequest(BaseModel):
 class QueryResponse(BaseModel):
     response: Optional[str] = None
 
-# @app.post("/", response_model=QueryResponse)
 @app.post("/api/query", response_model=QueryResponse)
 def handle_query(request: QueryRequest):
     try:
-        query = request.query
-        print(query)
-
-        text_response= generate_llm_response(query)
-
-        print(f'kya me yha tak aaya hu')
-
-        # return # Assuming your QueryResponse expects 'input' and 'output' fields
-        return QueryResponse(text_response['input'], text_response['output'])
-    
+        response = generate_llm_response(request.query)
+        return QueryResponse(response=response['output'])
     except Exception as e:
-        return QueryResponse(error=str(e))
-    
+        return QueryResponse(response=str(e))
 
 
+def gradio_wrapper(user_input, history):
+    # Convert chat history into format required by LangChain
+    chat_history = []
+    for human, ai in history:
+        chat_history.append({"type": "human", "content": human})
+        chat_history.append({"type": "ai", "content": ai})
 
-demo= gr.ChatInterface(
-    fn= RAG,
-    textbox= gr.Textbox(placeholder= "Ask me anything..."),
-    title= 'NCERT GUIDE FOR SOUND',
-    undo_btn= "Delete Previous",
-    clear_btn= "Clear"
-)
+    response = generate_llm_response(user_input, chat_history)
+    audio_path = VoiceAgent(response) or ""
+    updated_history = history + [[user_input, response["output"]]]
+    return updated_history, audio_path
 
-demo2= gr.ChatInterface(
-    fn= generate_llm_response,
-    textbox= gr.Textbox(placeholder= "Ask me anything..."),
-    title= 'NCERT GUIDE FOR SOUND',
-    undo_btn= "Delete Previous",
-    clear_btn= "Clear"
-)
+with gr.Blocks() as demo:
+    gr.Markdown("### 🎧 NCERT RAG with Conversational Audio Responses")
+    chatbot = gr.Chatbot()
+    msg = gr.Textbox(placeholder="Ask a question or follow up...", show_label=False)
+    audio_output = gr.Audio(label="🔊 Listen", type="filepath")
 
-app= gr.mount_gradio_app(app, demo, path="/rag")
+    msg.submit(gradio_wrapper, [msg, chatbot], [chatbot, audio_output])
+    gr.ClearButton([msg, chatbot, audio_output])
 
-app= gr.mount_gradio_app(app, demo2, path="/rag_agent")
-
+app = gr.mount_gradio_app(app, demo, path="/rag_agent")
 
 if __name__ == "__main__":
-    uvicorn.run(
-        app= "main:app",
-        host= '127.0.0.1',
-        port= 7860,
-        reload= True
-    )
-
+    uvicorn.run("main:app", host="127.0.0.1", port=7860, reload=True)
