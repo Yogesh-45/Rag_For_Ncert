@@ -18,9 +18,8 @@ It intelligently integrates **vector database search** and **Large Language Mode
 - [Configuration](#-configuration)
 - [Running the Application](#-running-the-application)
 - [Integration Details](#-integration-details)
-- [API Endpoint](#-api-endpoint)
-- [Demo & Screenshots (optional)](#-demo--screenshots-optional)
-- [License](#-license)
+- [Contributing](#-contributing)
+- [Acknowledgement](#-acknowledgement)
 
 ---
 
