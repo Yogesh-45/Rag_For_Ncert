@@ -19,7 +19,7 @@ It intelligently integrates **vector database search** and **Large Language Mode
 - [Running the Application](#-running-the-application)
 - [Integration Details](#-integration-details)
 - [Contributing](#-contributing)
-- [Acknowledgement](#-acknowledgement)
+- [Acknowledgements](#-acknowledgements)
 
 ---
 
